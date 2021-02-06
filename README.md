@@ -5,8 +5,8 @@ No hardware other than ESP32 and smartphone is required.
 # Installation for ESP32
 
 ```
-git clone https://github.com/nopnop2002/esp-idf-st7789
-cd esp-idf-st7789/
+git clone https://github.com/nopnop2002/esp-idf-voice-control
+cd esp-idf-voice-control/
 idf.py set-target esp32
 idf.py flash monitor -p PORT
 ```
@@ -14,8 +14,8 @@ idf.py flash monitor -p PORT
 # Installation for ESP32-S2
 
 ```
-git clone https://github.com/nopnop2002/esp-idf-st7789
-cd esp-idf-st7789/
+git clone https://github.com/nopnop2002/esp-idf-voice-control
+cd esp-idf-voice-control/
 idf.py set-target esp32s2
 idf.py flash monitor -p PORT
 
