@@ -18,6 +18,8 @@ git clone https://github.com/nopnop2002/esp-idf-voice-control
 cd esp-idf-voice-control/
 idf.py set-target esp32s2
 idf.py flash monitor -p PORT
+```
+
 
 # Installation of smartphone app
 
