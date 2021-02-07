@@ -40,6 +40,6 @@ idf.py flash monitor -p PORT
 ![esp-idf-voice-control](https://user-images.githubusercontent.com/6020549/107132361-920b8d80-6921-11eb-800f-58bdb1ad5963.jpg)
 
 - After that, you add processing according to the spoken words.   
- For example:
- Lamp on.
- Lamp off.
+ For example:   
+ Lamp on   
+ Lamp off   
