@@ -23,14 +23,13 @@ idf.py flash monitor -p PORT
 
 # Installation of smartphone app
 
-- Install [this](https://play.google.com/store/apps/details?id=appinventor.ai_cempehlivan92.Arduino_Sesli_Kontrol) app on your smartphone.
+- Install [this](https://play.google.com/store/apps/details?id=appinventor.ai_cempehlivan92.Arduino_Sesli_Kontrol) app on your smartphone.   
  This app is an app that converts voice to text and sends it by Bluetooth2.0 SPP.   
 
 - After installing the app on your smartphone, add ESP_SPP_ACCEPTOR to your pairing device.
 
 - After launching the app, select "ESP_SPP_ACCEPTOR" from the CONNECT menu to pair.
 ![Arduino_Voice_Control-1](https://user-images.githubusercontent.com/6020549/107132341-64bedf80-6921-11eb-99d7-e6e032c78b3a.JPG)
-
 ![Arduino_Voice_Control-2](https://user-images.githubusercontent.com/6020549/107132344-67b9d000-6921-11eb-8824-8e6515a8d025.JPG)
 
 - From the LANGUAGE menu, select your country so that you can recognize your native language.
