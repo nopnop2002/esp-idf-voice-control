@@ -43,3 +43,4 @@ idf.py flash monitor -p PORT
  For example:   
  Lamp on   
  Lamp off   
+![esp-idf-voice-control-2](https://user-images.githubusercontent.com/6020549/107132887-9b4b2900-6926-11eb-9511-7bfa2a73ac8d.jpg)
