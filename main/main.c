@@ -244,7 +244,7 @@ void app_main(void)
 		} else if (cmdBuf.command == CMD_CLOSE) {
 			ESP_LOGI(MAIN_TAG, "disconnect from device");
 		} else if (cmdBuf.command == CMD_RECEIVE) {
-			ESP_LOGI(MAIN_TAG, "Your speek is [%s]", cmdBuf.payload);
+			ESP_LOGI(MAIN_TAG, "You said [%s]", cmdBuf.payload);
 		}
 	}
 }
