@@ -32,7 +32,7 @@ idf.py flash monitor -p PORT
 ![Arduino_Voice_Control-1](https://user-images.githubusercontent.com/6020549/107132341-64bedf80-6921-11eb-99d7-e6e032c78b3a.JPG)
 ![Arduino_Voice_Control-2](https://user-images.githubusercontent.com/6020549/107132344-67b9d000-6921-11eb-8824-8e6515a8d025.JPG)
 
-- From the LANGUAGE menu, select your country so that you can recognize your native language.
+- From the LANGUAGE menu, select a country so that the app can recognize your native language.
 ![Arduino_Voice_Control-3](https://user-images.githubusercontent.com/6020549/107132346-6a1c2a00-6921-11eb-88f2-981d418b582f.JPG)
 
 - When you tap the microphone and speak, the spoken words will be displayed on the ESP32.
