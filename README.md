@@ -44,3 +44,7 @@ idf.py flash monitor -p PORT
  Lamp on   
  Lamp off   
 ![esp-idf-voice-control-2](https://user-images.githubusercontent.com/6020549/107132887-9b4b2900-6926-11eb-9511-7bfa2a73ac8d.jpg)
+
+- I tried to say Good Bye (SAYONARA) and Thank you (ARIGATO) in Japanese.
+ It's OK.   
+ ![esp-idf-voice-control-3](https://user-images.githubusercontent.com/6020549/107133041-ceda8300-6927-11eb-92db-689cc517ce74.jpg)
