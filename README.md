@@ -18,7 +18,7 @@ ESP32-S2 does not have Bluetooth.
 # Installation of smartphone app
 
 - Install [this](https://play.google.com/store/apps/details?id=appinventor.ai_cempehlivan92.Arduino_Sesli_Kontrol) app on your smartphone.   
- This app is an app that converts voice to text and sends it by Bluetooth2.0 SPP.   
+ This app is an app that converts voice to text and sends it by Bluetooth 3.0 SPP.   
 
 - After installing the app on your smartphone, add ESP_SPP_ACCEPTOR to your pairing device.
 
