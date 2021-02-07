@@ -39,4 +39,7 @@ idf.py flash monitor -p PORT
 ![Arduino_Voice_Control-4](https://user-images.githubusercontent.com/6020549/107132349-6dafb100-6921-11eb-8a85-5a6c40896086.JPG)
 ![esp-idf-voice-control](https://user-images.githubusercontent.com/6020549/107132361-920b8d80-6921-11eb-800f-58bdb1ad5963.jpg)
 
-
+- After that, you add processing according to the spoken words.   
+ For example:
+ Lamp on.
+ Lamp off.
