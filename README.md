@@ -14,6 +14,8 @@ idf.py flash monitor -p PORT
 # Installation for ESP32-S2
 ESP32-S2 does not have Bluetooth.   
 
+# Installation for ESP32-C3
+ESP32-C3 does not have Bluetooth BR/EDR.   
 
 # Installation of smartphone app
 
