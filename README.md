@@ -1,5 +1,5 @@
 # esp-idf-voice-control
-Demonstration of voice control of esp32.   
+Demonstration of esp32 voice control using Bluetooth.   
 No hardware other than ESP32 and smartphone is required.   
 
 # Installation for ESP32
@@ -13,9 +13,11 @@ idf.py flash monitor -p PORT
 
 # Installation for ESP32-S2
 ESP32-S2 does not have Bluetooth.   
+This is not available.   
 
 # Installation for ESP32-C3
 ESP32-C3 does not have Bluetooth BR/EDR.   
+This is not available.   
 
 # Installation of smartphone app
 
