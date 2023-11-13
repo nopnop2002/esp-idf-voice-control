@@ -6,10 +6,10 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 
-#include <stdint.h>
-#include <string.h>
-#include <stdbool.h>
 #include <stdio.h>
+#include <inttypes.h>
+#include <string.h>
+
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "freertos/FreeRTOS.h"
@@ -38,15 +38,11 @@ static const esp_spp_mode_t esp_spp_mode = ESP_SPP_MODE_CB;
 static const esp_spp_sec_t sec_mask = ESP_SPP_SEC_AUTHENTICATE;
 static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
 
-#define CMD_OPEN		100
-#define CMD_RECEIVE		300
-#define CMD_CLOSE		400
-
 typedef struct {
 	uint32_t sppHandle;
-	uint16_t command;
-	size_t	 length;
-	uint8_t  payload[64];
+	esp_spp_cb_event_t event;
+	size_t length;
+	uint8_t payload[64];
 	TaskHandle_t taskHandle;
 } CMD_t;
 
@@ -70,7 +66,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
 		break;
 	case ESP_SPP_CLOSE_EVT:
 		ESP_LOGI(SPP_TAG, "ESP_SPP_CLOSE_EVT");
-		cmdBuf.command = CMD_CLOSE;
+		cmdBuf.event = ESP_SPP_CLOSE_EVT;
 		xQueueSend(xQueueCmd, &cmdBuf, 0);
 		break;
 	case ESP_SPP_START_EVT:
@@ -80,12 +76,12 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
 		ESP_LOGI(SPP_TAG, "ESP_SPP_CL_INIT_EVT");
 		break;
 	case ESP_SPP_DATA_IND_EVT:
-		ESP_LOGI(SPP_TAG, "ESP_SPP_DATA_IND_EVT len=%d handle=%d",
+		ESP_LOGI(SPP_TAG, "ESP_SPP_DATA_IND_EVT len=%d handle=%"PRIu32,
 				 param->data_ind.len, param->data_ind.handle);
 		esp_log_buffer_hex("data_ind",param->data_ind.data,param->data_ind.len);
 
 		cmdBuf.sppHandle = param->data_ind.handle;
-		cmdBuf.command = CMD_RECEIVE;
+		cmdBuf.event = ESP_SPP_DATA_IND_EVT;
 		strcpy((char *)cmdBuf.payload, (char *)param->data_ind.data);
 		cmdBuf.payload[param->data_ind.len] = 0;
 		cmdBuf.length = param->data_ind.len;
@@ -99,7 +95,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
 		break;
 	case ESP_SPP_SRV_OPEN_EVT:
 		ESP_LOGI(SPP_TAG, "ESP_SPP_SRV_OPEN_EVT");
-		cmdBuf.command = CMD_OPEN;
+		cmdBuf.event = ESP_SPP_SRV_OPEN_EVT;
 		xQueueSend(xQueueCmd, &cmdBuf, 0);
 		//gettimeofday(&time_old, NULL);
 		break;
@@ -146,11 +142,11 @@ void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
 
 #if (CONFIG_BT_SSP_ENABLED == true)
 	case ESP_BT_GAP_CFM_REQ_EVT:
-		ESP_LOGI(SPP_TAG, "ESP_BT_GAP_CFM_REQ_EVT Please compare the numeric value: %d", param->cfm_req.num_val);
+		ESP_LOGI(SPP_TAG, "ESP_BT_GAP_CFM_REQ_EVT Please compare the numeric value: %"PRIu32, param->cfm_req.num_val);
 		esp_bt_gap_ssp_confirm_reply(param->cfm_req.bda, true);
 		break;
 	case ESP_BT_GAP_KEY_NOTIF_EVT:
-		ESP_LOGI(SPP_TAG, "ESP_BT_GAP_KEY_NOTIF_EVT passkey:%d", param->key_notif.passkey);
+		ESP_LOGI(SPP_TAG, "ESP_BT_GAP_KEY_NOTIF_EVT passkey:%"PRIu32, param->key_notif.passkey);
 		break;
 	case ESP_BT_GAP_KEY_REQ_EVT:
 		ESP_LOGI(SPP_TAG, "ESP_BT_GAP_KEY_REQ_EVT Please enter passkey!");
@@ -211,7 +207,16 @@ void app_main(void)
 		return;
 	}
 
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
+	esp_spp_cfg_t bt_spp_cfg = {
+		.mode = esp_spp_mode,
+		.enable_l2cap_ertm = true,
+		.tx_buffer_size = 0, /* Only used for ESP_SPP_MODE_VFS mode */
+	};
+	if ((ret = esp_spp_enhanced_init(&bt_spp_cfg)) != ESP_OK) {
+#else
 	if ((ret = esp_spp_init(esp_spp_mode)) != ESP_OK) {
+#endif
 		ESP_LOGE(SPP_TAG, "%s spp init failed: %s\n", __func__, esp_err_to_name(ret));
 		return;
 	}
@@ -238,12 +243,12 @@ void app_main(void)
 	CMD_t cmdBuf;
 	while(1) {
 		xQueueReceive(xQueueCmd, &cmdBuf, portMAX_DELAY);
-		ESP_LOGI(MAIN_TAG,"cmdBuf.command=%d", cmdBuf.command);
-		if (cmdBuf.command == CMD_OPEN) {
+		ESP_LOGI(MAIN_TAG,"cmdBuf.event=%d", cmdBuf.event);
+		if (cmdBuf.event == ESP_SPP_SRV_OPEN_EVT) {
 			ESP_LOGI(MAIN_TAG, "Connect to device");
-		} else if (cmdBuf.command == CMD_CLOSE) {
+		} else if (cmdBuf.event == ESP_SPP_CLOSE_EVT) {
 			ESP_LOGI(MAIN_TAG, "disconnect from device");
-		} else if (cmdBuf.command == CMD_RECEIVE) {
+		} else if (cmdBuf.event == ESP_SPP_DATA_IND_EVT) {
 			ESP_LOGI(MAIN_TAG, "You said [%s]", cmdBuf.payload);
 		}
 	}

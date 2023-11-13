@@ -11,12 +11,13 @@ idf.py set-target esp32
 idf.py flash monitor -p PORT
 ```
 
-# Installation for ESP32-S2
-ESP32-S2 does not have Bluetooth.   
+# Installation for ESP32-Sx
+ESP32-S2 does not have Bluetooth function.   
+ESP32-S3 does not have Bluetooth BR/EDR.   
 This is not available.   
 
-# Installation for ESP32-C3
-ESP32-C3 does not have Bluetooth BR/EDR.   
+# Installation for ESP32-Cx
+ESP32-C2/C3/C6 does not have Bluetooth BR/EDR.   
 This is not available.   
 
 # Installation of smartphone app
