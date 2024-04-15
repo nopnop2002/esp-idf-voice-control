@@ -187,10 +187,18 @@ void app_main(void)
 		return;
 	}
 
+#if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 2, 0))
+	esp_bluedroid_config_t bluedroid_cfg = BT_BLUEDROID_INIT_CONFIG_DEFAULT();
+	if ((ret = esp_bluedroid_init_with_cfg(&bluedroid_cfg)) != ESP_OK) {
+		ESP_LOGE(pcTaskGetName(NULL), "%s initialize bluedroid failed: %s", __func__, esp_err_to_name(ret));
+		return;
+	}
+#else
 	if ((ret = esp_bluedroid_init()) != ESP_OK) {
 		ESP_LOGE(SPP_TAG, "%s initialize bluedroid failed: %s\n", __func__, esp_err_to_name(ret));
 		return;
 	}
+#endif
 
 	if ((ret = esp_bluedroid_enable()) != ESP_OK) {
 		ESP_LOGE(SPP_TAG, "%s enable bluedroid failed: %s\n", __func__, esp_err_to_name(ret));

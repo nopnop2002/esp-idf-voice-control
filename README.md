@@ -2,7 +2,17 @@
 Demonstration of esp32 voice control using Bluetooth.   
 No hardware other than ESP32 and smartphone is required.   
 
-# Installation for ESP32
+# Software requirement
+ESP-IDF V4.4/V5.x.   
+
+# Hardware requirements
+ESP32 Development board.   
+ESP32-S2 does not have Bluetooth function.   
+ESP32-S3 does not have Bluetooth BR/EDR.   
+ESP32-C2/C3/C6 does not have Bluetooth BR/EDR.   
+These cannot be used.   
+
+# Installation
 
 ```
 git clone https://github.com/nopnop2002/esp-idf-voice-control
@@ -11,14 +21,6 @@ idf.py set-target esp32
 idf.py flash monitor -p PORT
 ```
 
-# Installation for ESP32-Sx
-ESP32-S2 does not have Bluetooth function.   
-ESP32-S3 does not have Bluetooth BR/EDR.   
-This is not available.   
-
-# Installation for ESP32-Cx
-ESP32-C2/C3/C6 does not have Bluetooth BR/EDR.   
-This is not available.   
 
 # Installation of smartphone app
 
