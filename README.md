@@ -2,14 +2,15 @@
 Demonstration of esp32 voice control using Bluetooth.   
 No hardware other than ESP32 and smartphone is required.   
 
-# Software requirement
-ESP-IDF V4.4/V5.x.   
+# Software requirements
+ESP-IDF V5.0 or later.   
+ESP-IDF V4.4 release branch reached EOL in July 2024.   
 
 # Hardware requirements
 ESP32 Development board.   
 ESP32-S2 does not have Bluetooth function.   
-ESP32-S3 does not have Bluetooth BR/EDR.   
-ESP32-C2/C3/C6 does not have Bluetooth BR/EDR.   
+ESP32-S3 does not support Bluetooth BR/EDR.   
+ESP32 C Series does not support Bluetooth BR/EDR.   
 These cannot be used.   
 
 # Installation

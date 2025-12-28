@@ -28,7 +28,7 @@
 #define SPP_TAG "SPP_ACCEPTOR"
 #define MAIN_TAG "MAIN"
 #define SPP_SERVER_NAME "SPP_SERVER"
-#define EXAMPLE_DEVICE_NAME "ESP_SPP_ACCEPTOR"
+#define DEVICE_NAME "ESP_SPP_ACCEPTOR"
 
 static const esp_spp_mode_t esp_spp_mode = ESP_SPP_MODE_CB;
 
@@ -54,7 +54,11 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
 	switch (event) {
 	case ESP_SPP_INIT_EVT:
 		ESP_LOGI(SPP_TAG, "ESP_SPP_INIT_EVT");
-		esp_bt_dev_set_device_name(EXAMPLE_DEVICE_NAME);
+#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 3, 0)
+		esp_bt_gap_set_device_name(DEVICE_NAME);
+#else
+		esp_bt_dev_set_device_name(DEVICE_NAME);
+#endif
 		esp_bt_gap_set_scan_mode(ESP_BT_CONNECTABLE, ESP_BT_GENERAL_DISCOVERABLE);
 		esp_spp_start_srv(sec_mask,role_slave, 0, SPP_SERVER_NAME);
 		break;
@@ -78,7 +82,7 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
 	case ESP_SPP_DATA_IND_EVT:
 		ESP_LOGI(SPP_TAG, "ESP_SPP_DATA_IND_EVT len=%d handle=%"PRIu32,
 				 param->data_ind.len, param->data_ind.handle);
-		esp_log_buffer_hex("data_ind",param->data_ind.data,param->data_ind.len);
+		ESP_LOG_BUFFER_HEXDUMP(__FUNCTION__, param->data_ind.data, param->data_ind.len, ESP_LOG_INFO);
 
 		cmdBuf.sppHandle = param->data_ind.handle;
 		cmdBuf.event = ESP_SPP_DATA_IND_EVT;
@@ -116,7 +120,7 @@ void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
 	case ESP_BT_GAP_AUTH_CMPL_EVT:{
 		if (param->auth_cmpl.stat == ESP_BT_STATUS_SUCCESS) {
 			ESP_LOGI(SPP_TAG, "authentication success: %s", param->auth_cmpl.device_name);
-			esp_log_buffer_hex(SPP_TAG, param->auth_cmpl.bda, ESP_BD_ADDR_LEN);
+			ESP_LOG_BUFFER_HEXDUMP(SPP_TAG, param->auth_cmpl.bda, ESP_BD_ADDR_LEN, ESP_LOG_INFO);
 		} else {
 			ESP_LOGE(SPP_TAG, "authentication failed, status:%d", param->auth_cmpl.stat);
 		}
